@@ -59,7 +59,8 @@
   - name: Download Virk for Viya 3.4
     git:
         repo: https://github.com/sassoftware/virk.git
-        dest: /sas/ts_playbooks/virk_3.4 version=viya-3.4
+        dest: /sas/ts_playbooks/virk_3.4
+        version: viya-3.4
       
 - import_playbook: /sas/ts_playbooks/gelopenldap/gel.openldapsetup.yml
   vars: 
