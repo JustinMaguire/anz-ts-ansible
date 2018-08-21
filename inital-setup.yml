@@ -61,9 +61,6 @@
         repo: https://github.com/sassoftware/virk.git
         dest: /sas/ts_playbooks/virk_3.4 version=viya-3.4
       
-  - name: Get the GEL OpenLDAP Playbook
-    shell: wget --no-parent --no-check-certificate -r https://gelweb.race.sas.com/mirror/gitlab/OpenLDAP/ -P /sas/ts_playbooks/gelopenldap -nH --cut-dirs=3
-
 - import_playbook: /sas/ts_playbooks/gelopenldap/gel.openldapsetup.yml
   vars: 
     anonbind: true

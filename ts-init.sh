@@ -23,5 +23,6 @@ sudo mkdir -p /sas/install
 sudo mkdir -p /sas/ts_playbooks
 ansible localhost -b -m git -a "repo=https://github.com/JustinMaguire/anz-ts-ansible.git dest=/sas/ts_playbooks/anz-ts-ansible"
 sudo chown cloud-user:cloud-user -R /sas 
+wget --no-parent --no-check-certificate -r https://gelweb.race.sas.com/mirror/gitlab/OpenLDAP/ -P /sas/ts_playbooks/gelopenldap -nH --cut-dirs=3
 
-/bin/ansible-playbook /sas/ts_playbooks/anz-ts-ansible inital-setup.yml -i /sas/ts_playbooks/anz-ts-ansible/ts.inventory.ini
+/bin/ansible-playbook /sas/ts_playbooks/anz-ts-ansible/inital-setup.yml -i /sas/ts_playbooks/anz-ts-ansible/ts.inventory.ini
