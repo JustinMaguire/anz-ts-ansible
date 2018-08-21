@@ -12,6 +12,9 @@
     - postgresql-contrib
     - postgresql-devel
     - python-psycopg2
+    
+- name: Postgres Database Init
+  shell: /usr/bin/postgresql-setup initdb
 
 - name: Ensure the PostgreSQL service is running
   service: name=postgresql state=started enabled=yes
