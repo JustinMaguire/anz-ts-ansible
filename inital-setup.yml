@@ -1,0 +1,89 @@
+---
+- name: Viya Server disk setup
+  hosts: sasall
+  become: yes
+  become_user: root
+
+  tasks:
+  - name: Get GEL Disk Prep
+    get_url:
+      dest: /tmp/diskprep.sh
+      url: https://gelweb.race.sas.com/scripts/PSGEL109_001/diskprep.sh
+      mode: 744
+      owner: root
+      group: root
+      validate_certs: no
+      
+  - name: Get GEL Empheral Disk Script
+    get_url:
+      dest: /usr/sbin/disks_ephemeral.sh
+      url: https://gelweb.race.sas.com/scripts/PSGEL109_001/disks_ephemeral.sh
+      mode: 744
+      owner: root
+      group: root
+      validate_certs: no
+      
+  - name: Execute GEL Disk Prep
+    shell: /tmp/diskprep.sh
+      
+  - name: Execute GEL Empheral Disk Script
+    shell: /usr/sbin/disks_ephemeral.sh
+      
+- name: Non SAS Server Setup
+  hosts: nonsas
+  become: yes
+  become_user: root
+
+  tasks:
+  - name: Download Viya VA 8.3 Playbook
+    get_url:
+        dest:/sas/install/SAS_Viya_playbook.tgz
+        url: https://gelweb.race.sas.com/mirror/09MZPC/SAS_Viya_playbook.tgz 
+        validate_certs: no 
+        owner: cloud-user 
+        group: cloud-user
+
+  - name: Extract Viya VA 8.3 Playbook
+    unarchive:
+        src: /sas/install/SAS_Viya_playbook.tgz
+        dest: /sas/install
+        owner: cloud-user
+        group: cloud-user
+        
+  - name: Update Playbook REPOSITORY_WAREHOUSE
+    lineinfile:
+        dest: /sas/install/sas_viya_playbook/vars.yml
+        regexp: '^(.*)REPOSITORY_WAREHOUSE(.*)$'
+        line: 'REPOSITORY_WAREHOUSE: \"https://gelweb.race.sas.com/mirror/09MZPC/\"'
+  
+  - name: Download Virk for Viya 3.4
+    git:
+        repo: https://github.com/sassoftware/virk.git
+        dest: /sas/ts_playbooks/virk_3.4 version=viya-3.4
+      
+  - name: Get the GEL OpenLDAP Playbook
+    shell: wget --no-parent --no-check-certificate -r https://gelweb.race.sas.com/mirror/gitlab/OpenLDAP/ -P /sas/ts_playbooks/gelopenldap -nH --cut-dirs=3
+
+- import_playbook: /sas/ts_playbooks/gelopenldap/gel.openldapsetup.yml
+  vars: 
+    anonbind: true
+    OLCROOTPW: Orion123
+
+- name: Viya Playbook Update with LDAP
+  hosts: nonsas
+  become: yes
+  become_user: root
+  tasks:
+  - name: Push sitedefaults.yml to the playbook
+    copy:
+      src: /sas/ts_playbooks/gelopenldap/sitedefault.yml
+      dest: /sas/install/sas_viya_playbook/roles/consul/files/sitedefault.yml
+      owner: cloud-user 
+      group: cloud-user
+  
+  - name: Update Playbook Final
+    replace:
+        dest: /sas/install/sas_viya_playbook/roles/consul/files/sitedefault.yml
+        regexp: 'groupOfNames'
+        replace: 'group'
+        backup: yes
