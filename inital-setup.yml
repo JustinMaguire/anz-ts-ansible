@@ -1,6 +1,6 @@
 ---
 - name: Viya Server disk setup
-  hosts: sasall
+  hosts: sas-all
   become: yes
   become_user: root
 
@@ -54,7 +54,7 @@
     lineinfile:
         dest: /sas/install/sas_viya_playbook/vars.yml
         regexp: '^(.*)REPOSITORY_WAREHOUSE(.*)$'
-        line: 'REPOSITORY_WAREHOUSE: \"https://gelweb.race.sas.com/mirror/09MZPC/\"'
+        line: 'REPOSITORY_WAREHOUSE: "https://gelweb.race.sas.com/mirror/09MZPC"'
   
   - name: Download Virk for Viya 3.4
     git:
