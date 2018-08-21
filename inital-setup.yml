@@ -2,10 +2,10 @@
 
 - name: Create a PostgreSQL DB server
   hosts: nonsas
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
   vars_files:
-    - vars/main.yml
+    - vars.yml
 
   roles:
   - createdb
