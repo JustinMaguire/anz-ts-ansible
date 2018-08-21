@@ -1,4 +1,14 @@
 ---
+
+- name: Create a PostgreSQL DB server
+  hosts: nonsas
+  sudo: yes
+  sudo_user: root
+  vars_files:
+    - vars/main.yml
+
+  roles:
+  - createdb
 - name: Viya Server disk setup
   hosts: sas-all
   become: yes
