@@ -20,7 +20,7 @@
   lineinfile:
     dest: /var/lib/pgsql/data/postgresql.conf
     regexp: '^(.*)localhost(.*)$'
-    line: listen_addresses = 'localhost'
+    line: listen_addresses = '*'
 
 - name: Postgres allow users
   lineinfile:
