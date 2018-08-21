@@ -15,12 +15,24 @@
     
 - name: Postgres Database Init
   shell: /usr/bin/postgresql-setup initdb
+  
+- name: Postgres listen all
+  lineinfile:
+    dest: /var/lib/pgsql/data/postgresql.conf
+    regexp: '^(.*)localhost(.*)$'
+    line: listen_addresses = 'localhost'
 
+- name: Postgres allow users
+  lineinfile:
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    line: host  all  all 0.0.0.0/0 md5
+        
 - name: Ensure the PostgreSQL service is running
-  service: name=postgresql state=started enabled=yes
+  service: name=postgresql state=restarted enabled=yes
 
 - name: Ensure database is created
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_db: name={{ db_name }}
                  encoding='UTF-8'
                  lc_collate='en_US.UTF-8'
@@ -29,7 +41,8 @@
                  state=present
 
 - name: Ensure user has access to the database
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: db={{ db_name }}
                    name={{ db_user }}
                    password={{ db_password }}
@@ -37,7 +50,8 @@
                    state=present
 
 - name: Ensure user does not have unnecessary privileges
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: name={{ db_user }}
                    role_attr_flags=NOSUPERUSER,NOCREATEDB
                    state=present
