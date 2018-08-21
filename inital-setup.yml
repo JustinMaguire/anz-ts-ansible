@@ -37,7 +37,7 @@
   tasks:
   - name: Download Viya VA 8.3 Playbook
     get_url:
-        dest:/sas/install/SAS_Viya_playbook.tgz
+        dest: /sas/install/SAS_Viya_playbook.tgz
         url: https://gelweb.race.sas.com/mirror/09MZPC/SAS_Viya_playbook.tgz 
         validate_certs: no 
         owner: cloud-user 

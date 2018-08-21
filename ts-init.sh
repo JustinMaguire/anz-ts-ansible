@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 if grep -q -i "release 6" /etc/redhat-release ; then
   majversion=6
 elif grep -q -i "release 7" /etc/redhat-release ; then
