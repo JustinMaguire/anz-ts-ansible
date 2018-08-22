@@ -40,19 +40,19 @@
     shell: /usr/sbin/disks_ephemeral.sh
     
 - name: final disk change
-  host: sascasworker2
+  hosts: sascasworker2
   become: yes
   become_user: root
   
   tasks:
    - name: Change 1
-    service:
-      name: disks_ephemeral
-      enabled: no
+     service:
+       name: disks_ephemeral
+       enabled: no
    - name: Change 2
-    mount:
-      path: /sastmp
-      state: unmounted
+     mount:
+       path: /sastmp
+       state: unmounted
       
 - name: Non SAS Server Setup
   hosts: nonsas

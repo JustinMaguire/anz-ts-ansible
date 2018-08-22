@@ -4,7 +4,7 @@
   become_user: postgres
   get_url: 
     url: http://stat-computing.org/dataexpo/2009/{{ filename }}.bz2
-    dest: /tmp/{{ filename }}
+    dest: /tmp/{{ filename }}.bz2
     
 - name: Unarchive data file
   become: yes
