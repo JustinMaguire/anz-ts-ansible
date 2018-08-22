@@ -39,6 +39,13 @@
       group: root
       validate_certs: no
       
+  - name: Update GEL script to start disk mount after network
+    lineinfile:
+      path: /tmp/diskprep.sh
+      regexp: '^After'
+      insertafter: '^Description'
+      line: 'After=network.target'
+      
   - name: Execute GEL Disk Prep
     shell: /tmp/diskprep.sh
       
