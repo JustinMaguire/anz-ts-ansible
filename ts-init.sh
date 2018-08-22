@@ -11,7 +11,7 @@ fi
 ## Attach EPEL
 sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$majversion.noarch.rpm
 
-sudo yum install -y python-pip gcc python-devel git
+sudo yum install -y python-pip gcc python-devel git bzip2
 
 sudo pip install --upgrade pip
 
