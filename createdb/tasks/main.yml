@@ -57,7 +57,7 @@
                    state=present
 
 - include_tasks: subtasks.yml
-  loop:
+  with_items:
   - "1987.csv"
   - "1988.csv"
   - "1989.csv"
@@ -81,5 +81,7 @@
   - "2006.csv"
   - "2007.csv"
   - "2008.csv"
+  loop_control:
+    loop_var: filename
   
   
