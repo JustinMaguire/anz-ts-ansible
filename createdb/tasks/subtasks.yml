@@ -1,0 +1,3 @@
+- get_url: url="http://stat-computing.org/dataexpo/2009/{{item }}.bz2" dest="/tmp/{{item }}"
+- unarchive: src="/tmp/{{item }}.bz2" dest="/tmp" remote_src="yes"
+- shell: psql -d FlightData --command "copy public.flightinfo FROM '/tmp/{{item }}' DELIMITER ',' CSV;"
