@@ -9,15 +9,16 @@
 
   roles:
   - createdb
+  
 - name: Viya Server disk setup
   hosts: sas-all
   become: yes
   become_user: root
 
   tasks:
-  - name: Install mdadm packages
+  - name: Install packages
     yum: 
-      name: mdadm
+      name: quota
       state: present
       
   - name: Get GEL Disk Prep
@@ -42,22 +43,8 @@
     shell: /tmp/diskprep.sh
       
   - name: Execute GEL Empheral Disk Script
+    ignore_errors: yes
     shell: /usr/sbin/disks_ephemeral.sh
-    
-- name: final disk change
-  hosts: sascasworker2
-  become: yes
-  become_user: root
-  
-  tasks:
-   - name: Change 1
-     service:
-       name: disks_ephemeral
-       enabled: no
-   - name: Change 2
-     mount:
-       path: /sastmp
-       state: unmounted
       
 - name: Non SAS Server Setup
   hosts: nonsas
