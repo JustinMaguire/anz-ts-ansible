@@ -9,7 +9,7 @@
 - name: Unarchive data file
   become: yes
   become_user: postgres
-  shell: bzip2 -d /tmp/{{ filename }}.bz2 
+  shell: bzip2 -d -f /tmp/{{ filename }}.bz2 
 
 - name: Insert data file to postgres 
   become: yes
