@@ -15,6 +15,11 @@
   become_user: root
 
   tasks:
+  - name: Install mdadm packages
+    yum: 
+      name: mdadm
+      state: present
+      
   - name: Get GEL Disk Prep
     get_url:
       dest: /tmp/diskprep.sh
