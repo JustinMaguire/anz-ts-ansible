@@ -10,7 +10,7 @@
   roles:
   - createdb
 - name: Viya Server disk setup
-  hosts: all
+  hosts: sas-all
   become: yes
   become_user: root
 
