@@ -25,13 +25,13 @@
     lineinfile:
       path: /home/sas/.bashrc
       regexp: '^export http_proxy'
-      line: 'export http_proxy=http://localhost:88/'
+      line: 'export http_proxy=http://gelweb.race.sas.com'
 
   - name: Update https proxy
     lineinfile:
       path: /home/sas/.bashrc
       regexp: '^export https_proxy'
-      line: 'export https_proxy=http://localhost:88/'
+      line: 'export https_proxy=https://gelweb.race.sas.com'
 
       
 - name: Viya Server disk setup
@@ -127,9 +127,15 @@
       owner: cloud-user 
       group: cloud-user
   
-  - name: Update Playbook Final
+  - name: Update Playbook
     replace:
-        dest: /sas/install/sas_viya_playbook/roles/consul/files/sitedefault.yml
-        regexp: 'groupOfNames'
-        replace: 'group'
-        backup: yes
+      dest: /sas/install/sas_viya_playbook/roles/consul/files/sitedefault.yml
+      regexp: 'groupOfNames'
+      replace: 'group'
+      backup: yes
+        
+  - name: Speed up failures
+    replace:
+      path: /sas/install/sas_viya_playbook/roles/sasdatasvrc-x64_redhat_linux_6-yum/tasks/start.yml
+      regexp: 'delay: 10'
+      replace: 'delay: 2'
