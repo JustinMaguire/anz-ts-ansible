@@ -21,6 +21,10 @@ sudo mkdir -p /sas/install
 sudo mkdir -p /sas/ts_playbooks
 ansible localhost -b -m git -a "repo=https://github.com/JustinMaguire/anz-ts-ansible.git dest=/sas/ts_playbooks/anz-ts-ansible"
 sudo chown cloud-user:cloud-user -R /sas 
-wget --quiet --no-parent --no-check-certificate -r https://gelweb.race.sas.com/mirror/gitlab/OpenLDAP/ -P /sas/ts_playbooks/gelopenldap -nH --cut-dirs=3
+wget --quiet --no-parent --no-check-certificate -r https://gelweb.race.sas.com/mirror/gitlab/OpenLDAP/ -P /sas/ts_playbooks/gel-openldap -nH --cut-dirs=3
+wget --quiet --no-parent --no-check-certificate -r https://gelweb.race.sas.com/mirror/gitlab/viya-gel-training-materials/17w47/gel.example.playbooks/viya.services/ -P /sas/ts_playbooks/gel-viya-services -nH --cut-dirs=6
+rm -rf /sas/ts_playbooks/gel-viya-services/*.htm* 
+chmod +x /sas/ts_playbooks/gel-viya-services/viya.services.deregister.microservices.sh
+
 
 /bin/ansible-playbook /sas/ts_playbooks/anz-ts-ansible/inital-setup.yml -i /sas/ts_playbooks/anz-ts-ansible/ts.inventory.ini

@@ -110,7 +110,7 @@
         dest: /sas/ts_playbooks/virk_3.4
         version: viya-3.4
       
-- import_playbook: /sas/ts_playbooks/gelopenldap/gel.openldapsetup.yml
+- import_playbook: /sas/ts_playbooks/gel-openldap/gel.openldapsetup.yml
   vars: 
     anonbind: true
     OLCROOTPW: Orion123
