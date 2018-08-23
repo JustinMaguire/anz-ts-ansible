@@ -10,12 +10,36 @@
   roles:
   - createdb
   
+- name: TS playbook init
+  hosts: sasviyaservices
+  become: yes
+  become_user: root
+
+  tasks:
+  - name: Add sas user
+    user:
+      name: sas
+      uid: 10001
+      
+  - name: Update http proxy
+    lineinfile:
+      path: /home/sas/.bashrc
+      regexp: '^export http_proxy'
+      line: 'export http_proxy=http://localhost:88/'
+
+  - name: Update https proxy
+    lineinfile:
+      path: /home/sas/.bashrc
+      regexp: '^export https_proxy'
+      line: 'export https_proxy=http://localhost:88/'
+
+      
 - name: Viya Server disk setup
   hosts: sas-all
   become: yes
   become_user: root
 
-  tasks:
+  tasks:      
   - name: Install packages
     yum: 
       name: quota
