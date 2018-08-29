@@ -22,6 +22,7 @@ sudo mkdir -p /sas/ts_playbooks
 ansible localhost -b -m git -a "repo=https://github.com/JustinMaguire/anz-ts-ansible.git dest=/sas/ts_playbooks/anz-ts-ansible"
 sudo chown cloud-user:cloud-user -R /sas 
 wget --quiet --no-parent --no-check-certificate -r https://gelweb.race.sas.com/mirror/gitlab/OpenLDAP/ -P /sas/ts_playbooks/gel-openldap -nH --cut-dirs=3
+rm -rf /sas/ts_playbooks/gel-openldap/*.htm*
 wget --quiet --no-parent --no-check-certificate -r https://gelweb.race.sas.com/mirror/gitlab/viya-gel-training-materials/17w47/gel.example.playbooks/viya.services/ -P /sas/ts_playbooks/gel-viya-services -nH --cut-dirs=6
 rm -rf /sas/ts_playbooks/gel-viya-services/*.htm* 
 chmod +x /sas/ts_playbooks/gel-viya-services/viya.services.deregister.microservices.sh
