@@ -105,6 +105,7 @@
   vars: 
     anonbind: true
     OLCROOTPW: Orion123
+    use_pause: false
 
 - name: Create a PostgreSQL DB server
   hosts: nonsas
