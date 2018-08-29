@@ -1,4 +1,13 @@
 #!/bin/bash -x
+
+COMPLEX=false
+echo $1
+if [ "$1" = "complex" ];
+    then
+COMPLEX=true
+
+
+
 if grep -q -i "release 6" /etc/redhat-release ; then
   majversion=6
 elif grep -q -i "release 7" /etc/redhat-release ; then
@@ -28,4 +37,4 @@ rm -rf /sas/ts_playbooks/gel-viya-services/*.htm*
 chmod +x /sas/ts_playbooks/gel-viya-services/viya.services.deregister.microservices.sh
 
 
-/bin/ansible-playbook /sas/ts_playbooks/anz-ts-ansible/inital-setup.yml -i /sas/ts_playbooks/anz-ts-ansible/ts.inventory.ini
+/bin/ansible-playbook /sas/ts_playbooks/anz-ts-ansible/inital-setup.yml -e hard=$COMPLEX -i /sas/ts_playbooks/anz-ts-ansible/ts.inventory.ini

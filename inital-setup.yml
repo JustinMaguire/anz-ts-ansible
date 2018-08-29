@@ -4,6 +4,8 @@
   hosts: sasviyaservices
   become: yes
   become_user: root
+  vars:
+    hard: false
 
   tasks:
   - name: Add sas user
@@ -12,17 +14,25 @@
       uid: 10001
       
   - name: Update http proxy
+    when: hard
     lineinfile:
       path: /home/sas/.bashrc
       regexp: '^export http_proxy'
       line: 'export http_proxy=http://gelweb.race.sas.com'
 
   - name: Update https proxy
+    when: hard
     lineinfile:
       path: /home/sas/.bashrc
       regexp: '^export https_proxy'
       line: 'export https_proxy=https://gelweb.race.sas.com'
-
+      
+  - name: Build host
+    when: not hard
+    lineinfile:
+      path: /etc/hosts
+      regexp: '^127.0.0.1 gelweb.race.sas.com'
+      line: '127.0.0.1 gelweb.race.sas.com'      
       
 - name: Viya Server disk setup
   hosts: sas-all
