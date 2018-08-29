@@ -1,9 +1,9 @@
 #!/bin/bash -x
 
-COMPLEX=false
+COMPLEX="false"
 if [ "$1" = "complex" ];
     then
-	COMPLEX=true
+	COMPLEX="true"
 	echo You have accepted the challenge!
 fi
 
