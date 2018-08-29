@@ -1,11 +1,11 @@
 #!/bin/bash -x
 
 COMPLEX=false
-echo $1
 if [ "$1" = "complex" ];
     then
-COMPLEX=true
-
+	COMPLEX=true
+	echo You have accepted the challenge!
+fi
 
 
 if grep -q -i "release 6" /etc/redhat-release ; then
