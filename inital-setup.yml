@@ -1,14 +1,4 @@
 ---
-
-- name: Create a PostgreSQL DB server
-  hosts: nonsas
-  become: yes
-  become_user: root
-  vars_files:
-    - vars.yml
-
-  roles:
-  - createdb
   
 - name: TS playbook init
   hosts: sasviyaservices
@@ -115,6 +105,16 @@
     anonbind: true
     OLCROOTPW: Orion123
 
+- name: Create a PostgreSQL DB server
+  hosts: nonsas
+  become: yes
+  become_user: root
+  vars_files:
+    - vars.yml
+
+  roles:
+  - createdb
+  
 - name: Viya Playbook Update with LDAP
   hosts: nonsas
   become: yes
@@ -122,7 +122,7 @@
   tasks:
   - name: Push sitedefaults.yml to the playbook
     copy:
-      src: /sas/ts_playbooks/gelopenldap/sitedefault.yml
+      src: /sas/ts_playbooks/gel-openldap/sitedefault.yml
       dest: /sas/install/sas_viya_playbook/roles/consul/files/sitedefault.yml
       owner: cloud-user 
       group: cloud-user
