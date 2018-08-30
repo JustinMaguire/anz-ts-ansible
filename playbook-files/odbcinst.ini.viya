@@ -1,0 +1,5 @@
+[ODBC Drivers]
+PostgreSQL=Installed
+[PostgreSQL]
+Description=ODBC for PostgreSQL
+Driver=/opt/sas/viya/home/lib64/psqlodbcw.so
