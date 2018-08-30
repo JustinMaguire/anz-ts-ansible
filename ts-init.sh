@@ -38,3 +38,5 @@ chmod +x /sas/ts_playbooks/gel-viya-services/viya.services.deregister.microservi
 
 
 /bin/ansible-playbook /sas/ts_playbooks/anz-ts-ansible/inital-setup.yml -e hard=$COMPLEX -i /sas/ts_playbooks/anz-ts-ansible/ts.inventory.ini
+
+cp -rf /sas/ts_playbooks/gel-viya-services/viya.services.* /sas/install/sas_viya_playbook/ 

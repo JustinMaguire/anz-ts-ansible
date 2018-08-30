@@ -65,7 +65,6 @@
 
 - include_tasks: subtasks.yml
   with_items:
-  - "1997.csv"
   - "1998.csv"
   - "1999.csv"
   - "2000.csv"
