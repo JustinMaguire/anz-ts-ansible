@@ -27,6 +27,13 @@
       regexp: '^export https_proxy'
       line: 'export https_proxy=https://gelweb.race.sas.com'
       
+- name: TS playbook init
+  hosts: sas-all
+  become: yes
+  become_user: root
+  vars:
+    hard: "false"
+    
   - name: Build host
     when: hard  == "false"
     lineinfile:
