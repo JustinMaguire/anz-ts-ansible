@@ -21,48 +21,6 @@
     yum:
       name: cuda
       state: present
-
-  
-- name: TS Troubleshooting hard
-  hosts: sasviyaservices
-  become: yes
-  become_user: root
-  vars:
-    hard: "false"
-
-  tasks:
-  - name: Add sas user
-    user:
-      name: sas
-      uid: 10001
-      
-  - name: Update http proxy
-    when: hard == "true"
-    lineinfile:
-      path: /home/sas/.bashrc
-      regexp: '^export http_proxy'
-      line: 'export http_proxy=http://gelweb.race.sas.com'
-
-  - name: Update https proxy
-    when: hard == "true"
-    lineinfile:
-      path: /home/sas/.bashrc
-      regexp: '^export https_proxy'
-      line: 'export https_proxy=https://gelweb.race.sas.com'
-      
-- name: TS Troubleshooting not hard
-  hosts: sas-all
-  become: yes
-  become_user: root
-  vars:
-    hard: "false"
-    
-  - name: Build host
-    when: hard  == "false"
-    lineinfile:
-      path: /etc/hosts
-      regexp: '^127.0.0.1 gelweb.race.sas.com'
-      line: '127.0.0.1 gelweb.race.sas.com'      
       
 - name: Viya Server disk setup
   hosts: sas-all
@@ -180,3 +138,45 @@
       path: /sas/install/sas_viya_playbook/roles/sasdatasvrc-x64_redhat_linux_6-yum/tasks/start.yml
       regexp: 'delay: 10'
       replace: 'delay: 2'
+
+- name: TS Troubleshooting hard
+  hosts: sasviyaservices
+  become: yes
+  become_user: root
+  vars:
+    hard: "false"
+
+  tasks:
+  - name: Add sas user
+    user:
+      name: sas
+      uid: 10001
+      
+  - name: Update http proxy
+    when: hard == "true"
+    lineinfile:
+      path: /home/sas/.bashrc
+      regexp: '^export http_proxy'
+      line: 'export http_proxy=http://gelweb.race.sas.com'
+
+  - name: Update https proxy
+    when: hard == "true"
+    lineinfile:
+      path: /home/sas/.bashrc
+      regexp: '^export https_proxy'
+      line: 'export https_proxy=https://gelweb.race.sas.com'
+      
+- name: TS Troubleshooting not hard
+  hosts: sas-all
+  become: yes
+  become_user: root
+  vars:
+    hard: "false"
+
+  tasks:  
+  - name: Build host
+    when: hard  == "false"
+    lineinfile:
+      path: /etc/hosts
+      regexp: '^127.0.0.1 gelweb.race.sas.com'
+      line: '127.0.0.1 gelweb.race.sas.com'      
