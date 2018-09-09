@@ -1,6 +1,29 @@
 ---
+
+- name: Setup CAS for Cuda
+  hosts: sas-cas
+  become: yes
+  become_user: root
+
+  tasks:
+
+  - name: Install EPEL
+    yum:
+      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
+      state: present
+
+  - name: Install Cuda Repo
+    yum:
+      name: https://developer.download.nvidia.com/compute/cuda/repos/rhel{{ ansible_distribution_major_version }}/x86_64/cuda-repo-rhel{{ ansible_distribution_major_version }}-9.2.148-1.x86_64.rpm
+      state: present
+
+  - name: Install Cuda
+    yum:
+      name: cuda
+      state: present
+
   
-- name: TS playbook init
+- name: TS Troubleshooting hard
   hosts: sasviyaservices
   become: yes
   become_user: root
@@ -27,7 +50,7 @@
       regexp: '^export https_proxy'
       line: 'export https_proxy=https://gelweb.race.sas.com'
       
-- name: TS playbook init
+- name: TS Troubleshooting not hard
   hosts: sas-all
   become: yes
   become_user: root
