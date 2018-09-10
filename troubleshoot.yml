@@ -4,9 +4,43 @@
   hosts: sasviyaservices
   become: yes
   become_user: root
+  tags:
+    - devcode
   tasks:  
-  - name: Update Files
+  - name: Break it!
     ignore_errors: yes
     shell: mv /opt/sas/viya/config/etc/compsrv/default/logconfig.xml /opt/sas/viya/config/etc/compsrv/default/logconfig.info.xml 
-    tags:
-      - devcode
+    
+      
+
+- name: TS Troubleshooting Data Load
+  hosts: sascasworker1
+  become: yes
+  become_user: root
+  tags:
+    - dataload
+  tasks:  
+  - name: Break It!
+    file:
+      path: /sastmp/cascache
+      owner: cas
+      group: cas
+      mode: 0755 
+    
+- name: TS Troubleshooting Logon
+  hosts: sasviyaservices
+  become: yes
+  become_user: root
+  tags:
+      - logon
+  tasks:
+  - name: Find the magic value
+    shell: export CONSUL_TOKEN=$(sudo cat /opt/sas/viya/config/etc/SASSecurityCertificateFramework/tokens/consul/default/client.token); . /opt/sas/viya/config/consul.conf; /opt/sas/viya/home/bin/sas-bootstrap-config agent service list  |grep "authorization-" |grep "{"  | cut -d'"' -f 2
+    register: service_response
+
+
+  - name: Register
+    shell: export CONSUL_TOKEN=$(sudo cat /opt/sas/viya/config/etc/SASSecurityCertificateFramework/tokens/consul/default/client.token); . /opt/sas/viya/config/consul.conf; /opt/sas/viya/home/bin/sas-bootstrap-config agent service register --name authorization --tags proxy --tags rest-commons --tags https --tags contextPath=/authorization --port 8189 --address intviya02.race.sas.com {{ service_response.stdout }}
+
+  - name: Check
+    shell: export CONSUL_TOKEN=$(sudo cat /opt/sas/viya/config/etc/SASSecurityCertificateFramework/tokens/consul/default/client.token); . /opt/sas/viya/config/consul.conf; /opt/sas/viya/home/bin/sas-bootstrap-config agent check register --id service:{{ service_response.stdout }} --http "https://intviya02.race.sas.com:8189/authorization/commons/health" --service-id {{ service_response.stdout }} --name "authorization" --status "passing" --interval "1m"

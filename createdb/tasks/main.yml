@@ -65,8 +65,6 @@
 
 - include_tasks: subtasks.yml
   with_items:
-  - "1998.csv"
-  - "1999.csv"
   - "2000.csv"
   loop_control:
     loop_var: filename
