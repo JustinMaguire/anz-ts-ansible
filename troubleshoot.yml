@@ -1,0 +1,12 @@
+---
+
+- name: TS Troubleshooting Develop Code
+  hosts: sasviyaservices
+  become: yes
+  become_user: root
+  tasks:  
+  - name: Update Files
+    ignore_errors: yes
+    shell: mv /opt/sas/viya/config/etc/compsrv/default/logconfig.xml /opt/sas/viya/config/etc/compsrv/default/logconfig.info.xml 
+    tags:
+      - devcode

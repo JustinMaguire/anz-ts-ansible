@@ -172,11 +172,10 @@
   become_user: root
   vars:
     hard: "false"
-
   tasks:  
   - name: Build host
     when: hard  == "false"
     lineinfile:
       path: /etc/hosts
       regexp: '^127.0.0.1 gelweb.race.sas.com'
-      line: '127.0.0.1 gelweb.race.sas.com'      
+      line: '127.0.0.1 gelweb.race.sas.com'
