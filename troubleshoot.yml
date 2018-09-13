@@ -24,7 +24,7 @@
     file:
       path: /sastmp/cascache
       owner: cas
-      group: cas
+      group: sas
       mode: 0755 
     
 - name: TS Troubleshooting Logon
